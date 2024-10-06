@@ -1,17 +1,143 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 1
+      product grid
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" mode="md" slot="fixed" class="ion-padding">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
+      <ion-title size="large">product grid</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-button id="open-modal" expand="block" (click)="breakpoint()">Open Modal</ion-button>
+  <ion-modal #modal trigger="open-modal">
+    <ng-template>
+      <ion-content>
+
+
+      <!-- product grid quick cart -->
+      <div class="qcart-content-wrap">
+          <ion-list class="qcart-content">
+              <div class="position-wrap">
+                  <!-- top section -->
+                  <div class="qcart-top-info-wrap">
+                      <ion-img class="product-img" src="assets/img/product-mock3.png"></ion-img>
+                      <ion-buttons class="qcart-closing-btn">
+                          <ion-button>
+                              <img src="assets/icon/closing-icon.svg">
+                          </ion-button>
+                      </ion-buttons>
+                      <div class="qcart-info-right">
+                          <span class="qcart-title">Baam My Whey Protien one two sentences dfsdf dfsf</span>
+                          <p class="qcart-des">Short description two sentence Lorem ipsum Short description two</p>
+                          <div class="price-d">฿1,250 <span class="price-o">฿1,699</span></div>
+                          <!-- <div class="price-d">฿1,250</div> -->
+                          <div class="qcart-points">
+                              <img src="assets/icon/clear-point-icon.svg"/><span class="point">200</span>
+                          </div>
+                          <a href="tabs/tab2" class="qcart-lm">Learn More ></a>
+                      </div>
+                  </div>
+                  <!-- mid and bottom section wrap -->
+                  <div class="qcart-exp">EXP:20/2021</div>
+                  <div class="qcart-mid-wrap">
+                      <!-- mid section -->
+                      <div class="qcart-selector-wrap">
+                          <div class="qcart-selector">
+                              <div class="qcart-heading"> Size <span class="select-num"> (Select 1)</span></div>
+                              <ion-buttons class="selector-btn-wrap">
+                                <ion-button *ngFor="let size of sizes"
+                                  [disabled]="size.disabled"
+                                  class="selector-btn"
+                                  [ngClass]="{'select': selectedSize === size.label, 'n-select': selectedSize !== size.label}"
+                                  (click)="selectSize(size.label)">
+                                  {{size.label}} <img *ngIf="size.icon" class="flash" [src]="size.icon">
+                                </ion-button>
+                              </ion-buttons>
+                              <!-- <ion-buttons class="selector-btn-wrap">
+                                  <ion-button class="selector-btn n-select">Sample <img class="flash" src="assets/icon/mnf.svg"></ion-button>
+                                  <ion-button class="selector-btn n-select">250g</ion-button>
+                                  <ion-button class="selector-btn select ">1lb <img class="flash" src="assets/icon/mnf.svg"></ion-button>
+                                  <ion-button class="selector-btn disable">3lb <img class="flash" src="assets/icon/mnf.svg"></ion-button>
+                                  <ion-button class="selector-btn n-select">5lb</ion-button>
+                                  <ion-button class="selector-btn n-select">10lb</ion-button>
+                              </ion-buttons> -->
+
+                          </div>
+                          <div class="qcart-selector">
+                              <div class="qcart-heading">Flavor / Selections <span class="select-num"> (Select 1)</span></div>
+                              <ion-buttons class="selector-btn-wrap">
+                                <ion-button *ngFor="let flavor of flavors"
+                                  [disabled]="flavor.disabled"
+                                  class="selector-btn"
+                                  [ngClass]="{'select': selectedFlavor === flavor.label, 'n-select': selectedFlavor !== flavor.label}"
+                                  (click)="selectFlavor(flavor.label)">
+                                  {{flavor.label}}
+                                </ion-button>
+                                  <!-- <ion-button class="selector-btn n-select">Chocolate</ion-button>
+                                  <ion-button class="selector-btn n-select">Matcha Green Tea</ion-button>
+                                  <ion-button class="selector-btn select">Vanilla</ion-button>
+                                  <ion-button class="selector-btn disable">Cafe Mocha</ion-button>
+                                  <ion-button class="selector-btn n-select">Orange Yuzu</ion-button> -->
+                                  <!-- <ion-button class="selector-btn select">Vanilla</ion-button>
+                                  <ion-button class="selector-btn disable">Cafe Mocha</ion-button>
+                                  <ion-button class="selector-btn n-select">Orange Yuzu</ion-button> -->
+                              </ion-buttons>
+                          </div>
+                      </div>
+                      <!-- bottom section -->
+                      <ion-footer class="qcart-confirm-footer">
+                          <div class="scroll-arrow-wrap" id="scrollable-arrow"  (click)="toggleConfirm()">
+                              <img src="assets/icon/arrow-down-icon.svg">
+                          </div>
+                          <div *ngIf="showConfirm" class="qcart-confirm" lines="none" style="color: black;">
+                              <div class="qcart-qty-wrap">
+                                  <p class="qty-left">Quantity</p>
+                                  <div class="qty-right">
+                                      <ion-button class="qcart-btn-qty" (click)="decreaseQuantity()">
+                                          <img src="assets/icon/subtract-icon.svg">
+                                      </ion-button>
+                                      <span class="quickcart-text-qty">{{quantity}}</span>
+                                      <ion-button class="qcart-btn-qty" (click)="increaseQuantity()">
+                                          <img src="assets/icon/add-icon.svg">
+                                      </ion-button>
+                                  </div>
+                              </div>
+                              <ion-buttons class="qcart-mix-btn-wrap">
+                                  <ion-button slot="start" class="qcart-btn add" (click)="addToCart()">Add to Cart</ion-button>
+                                  <ion-button class="qcart-btn buy">Buy Now</ion-button>
+                              </ion-buttons>
+                              <!-- for buttons use add,buy,remove,update,inactive for 50% width, add extension -f for width 100%, example: add-f -->
+                              <!--
+                              <ion-buttons class="qcart-mix-btn-wrap">
+                                  <ion-button slot="start" expand="block" class="qcart-btn update">Update Cart</ion-button>
+                              </ion-buttons>
+                              -->
+                              <!--
+                              <ion-buttons class="qcart-mix-btn-wrap">
+                                  <ion-button slot="start" expand="block" class="qcart-btn remove">Remove</ion-button>
+                              </ion-buttons>
+                              -->
+                              <!--
+                              <ion-buttons class="qcart-mix-btn-wrap">
+                                  <ion-button slot="start" class="qcart-btn inactive">Add to Cart</ion-button>
+                                  <ion-button class="qcart-btn inactive">Buy inactive</ion-button>
+                              </ion-buttons>
+                              -->
+                          </div>
+                      </ion-footer>
+                  </div>
+              </div>
+          </ion-list>
+      </div>
+
+    </ion-content>
+  </ng-template>
+  </ion-modal>
+
+  <!-- <app-explore-container name="Tab 1 page"></app-explore-container> -->
 </ion-content>
